@@ -30,12 +30,13 @@ int main(int argc, char ** argv) {
 
 	using std::cout;
 	using std::endl;
+
 	cout << "You have entered " << argc 
          << " arguments:" << "\n"; 
 		 
     for (int i = 0; i < argc; ++i) 
         cout << argv[i] << "\n"; 
-	
+
 	int cdc_filestream = -1;
 
 	//OPEN THE UART
@@ -89,39 +90,38 @@ int main(int argc, char ** argv) {
 				
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
 				
-		sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
+		sendImage( (char*)(argv[0]), cdc_filestream);  // Open file 
 		SleepMs(10);
-	int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 
-		sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-	    n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+	// 	sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	//     n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 		
-		sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+	// 	sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	// 	n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 						
-		sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+	// 	sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	// 	n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 		
 		
-		SleepMs(500);
+	// 	SleepMs(500);
 
-		n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 				
-		n = write(cdc_filestream, BLACK_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, BLACK_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 		
-		n = write(cdc_filestream, WHITE_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, WHITE_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 	
 	if (n < 0) {
