@@ -5,7 +5,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <stdexcept>
-
+#include <iostream>
 #include <stdint.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "lib/stb-master/stb_image.h"
@@ -28,7 +28,15 @@ unsigned char SHOW_THE_PICTURE[] = { 0xA8, 0x00, 0x09, 0x08, 0x00, 0x00, 0x01, 0
 
 int main(int argc, char ** argv) {
 
- 	int cdc_filestream = -1;
+	using std::cout;
+	using std::endl;
+	cout << "You have entered " << argc 
+         << " arguments:" << "\n"; 
+		 
+    for (int i = 0; i < argc; ++i) 
+        cout << argv[i] << "\n"; 
+	
+	int cdc_filestream = -1;
 
 	//OPEN THE UART
 	
