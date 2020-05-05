@@ -37,7 +37,6 @@ int main(int argc, char ** argv) {
     for (int i = 0; i < argc; ++i) 
         cout << argv[i] << "\n"; 
 
-	
 	int cdc_filestream = -1;
 
 	//OPEN THE UART
@@ -85,45 +84,45 @@ int main(int argc, char ** argv) {
 
 		SleepMs(500);
 
-		sendImage(argv[1], cdc_filestream);
-		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		//sendImage(argv[1], cdc_filestream);
+		//SleepMs(10);
+		//int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 				
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
-				
-		// sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		cout << argv[0] << "\n"; 
 
-		// sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-	    // n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		sendImage(argv[0], cdc_filestream);  // Open file 
+		SleepMs(10);
+		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+
+	// 	sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	//     n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 		
-		// sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+	// 	sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	// 	n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 						
-		// sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+	// 	sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
+	// 	SleepMs(10);
+	// 	n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+	// 	SleepMs(2000);
 		
 		
-		SleepMs(500);
+	// 	SleepMs(500);
 
-		n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 				
-		n = write(cdc_filestream, BLACK_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, BLACK_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 		
-		n = write(cdc_filestream, WHITE_SCREEN, 0x09);
-		SleepMs(500);
+	// 	n = write(cdc_filestream, WHITE_SCREEN, 0x09);
+	// 	SleepMs(500);
 
 	
 	if (n < 0) {
@@ -142,6 +141,7 @@ int main(int argc, char ** argv) {
 void sendImage(char *filename, int cdc)
 {
 	int width, height, bpp;
+	fprintf(stderr, filename);
 
 	uint8_t* image = stbi_load(filename, &width, &height, &bpp, 1);
 
