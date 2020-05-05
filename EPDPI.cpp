@@ -89,8 +89,9 @@ int main(int argc, char ** argv) {
 		//int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 				
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
-				
-		sendImage( (char*)(argv[0]), cdc_filestream);  // Open file 
+		cout << argv[0] << "\n"; 
+
+		sendImage(argv[0], cdc_filestream);  // Open file 
 		SleepMs(10);
 		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 
@@ -140,6 +141,7 @@ int main(int argc, char ** argv) {
 void sendImage(char *filename, int cdc)
 {
 	int width, height, bpp;
+	fprintf(stderr, filename);
 
 	uint8_t* image = stbi_load(filename, &width, &height, &bpp, 1);
 
