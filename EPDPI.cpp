@@ -47,13 +47,12 @@ int main(int argc, char ** argv) {
 	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
-	options.c_cflag = CS8 | CLOCAL | CREAD;		//<Set baud rate
+	options.c_cflag = B1000000 | CS8 | CLOCAL | CREAD;		//<Set baud rate
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
 	tcflush(cdc_filestream, TCIFLUSH);
 	tcsetattr(cdc_filestream, TCSANOW, &options);
-	cfsetispeed(&options, B115200);
 
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
 	fcntl(cdc_filestream, F_SETFL, 0);
