@@ -50,6 +50,8 @@ int main(int argc, char ** argv) {
 	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
+	cfsetispeed(&options, B115200);
+	cfsetospeed(&options, B115200);
 	// Enable the receiver and set local mode...
 	options.c_cflag |= (CLOCAL | CREAD | CS8);
 	options.c_cflag &= ~PARENB;  // ignore parity
