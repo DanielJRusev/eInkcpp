@@ -47,11 +47,6 @@ int main(int argc, char ** argv) {
 	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
-	options.c_cflag &= ~PARENB;
-	options.c_cflag &= ~CSTOPB;
-	options.c_cflag &= ~CSIZE;
-	// options.c_cflag |= CS8;
-
 	options.c_cflag = CS8 | CLOCAL | CREAD;		//<Set baud rate
 	options.c_iflag = IGNPAR;
 	// options.c_oflag = 0;
@@ -167,6 +162,10 @@ void sendImage(char *filename, int cdc)
 
 			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
 			IMAGE_RESOLUTION[9] =  height       & 0xFF;
+
+			write(cdc, IMAGE_RESOLUTION,	0x0C);
+			SleepMs(10);
+
 
 			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
 
