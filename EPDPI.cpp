@@ -18,7 +18,7 @@ void sendImage(char *filename, int cdc);
 unsigned char RESOLUTION[] = { 0xA8, 0x00, 0x0C, 0x01, 0x00, 0x00, 0x06, 0x40, 0x04, 0xB0, 0x00, 0x00, 0x00 };  	//Display Resolution 1600 x 1200
 unsigned char VCOM[] = { 0xA8, 0x00, 0x0A, 0x03, 0x00, 0x00, 0xf9, 0x0C, 0x00, 0x00, 0x00 };              			//VCOM -1780 mV    = 0xf830 
 unsigned char DGREY_LAVEL[] = { 0xA8, 0x00, 0x09, 0x04, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };			           	//GREY_LAVEL         16Bit
-unsigned char CONTRAST[] = { 0xA8, 0x00, 0x09, 0x06, 0x00, 0x00, 0x32, 0x00, 0x00, 0x00 };					   		//CONTRAST           50
+unsigned char CONTRAST[] = { 0xA8, 0x00, 0x09, 0x06, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00 };					   		//CONTRAST           50
 unsigned char BUS[] = { 0xA8, 0x00, 0x09, 0x05, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };                    			//BUS                8Bit
 unsigned char CLEAR_SCREEN[] = { 0xA8, 0x00, 0x09, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD                CLEAR_SCREEN
 unsigned char WHITE_SCREEN[] = { 0xA8, 0x00, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD			     White screen
@@ -44,15 +44,22 @@ int main(int argc, char ** argv) {
 	}
 	
 	//CONFIGURE THE UART
+	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
-	options.c_cflag = B115200;		//<Set baud rate
+	options.c_cflag &= ~PARENB;
+	options.c_cflag &= ~CSTOPB;
+	options.c_cflag &= ~CSIZE;
+	// options.c_cflag |= CS8;
+
+	options.c_cflag = CS8 | CLOCAL | CREAD;		//<Set baud rate
 	options.c_iflag = IGNPAR;
-	options.c_oflag = 0;
-	options.c_lflag = 0;
+	// options.c_oflag = 0;
+	// options.c_lflag = 0;
 	tcflush(cdc_filestream, TCIFLUSH);
 	tcsetattr(cdc_filestream, TCSANOW, &options);
-		
+	cfsetispeed(&options, B115200);
+
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
 	fcntl(cdc_filestream, F_SETFL, 0);
 
