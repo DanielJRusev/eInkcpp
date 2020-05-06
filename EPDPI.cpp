@@ -50,8 +50,9 @@ int main(int argc, char ** argv) {
 	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
-	cfsetispeed(&options, B115200);
-	cfsetospeed(&options, B115200);
+
+	// cfsetispeed(&options, B115200);
+	// cfsetospeed(&options, B115200);
 	// Enable the receiver and set local mode...
 	options.c_cflag |= (CLOCAL | CREAD | CS8);
 	options.c_cflag &= ~PARENB;  // ignore parity
@@ -59,6 +60,7 @@ int main(int argc, char ** argv) {
 	options.c_cflag &= ~CSIZE;   // clear the size bits
 	options.c_cflag &= ~CRTSCTS; //No hard flow control
 	options.c_cflag &= ~HUPCL;   //Hang Up on last Close
+	options.c_iflag &= ~IGNPAR;
 	options.c_cflag |= CS8;      // reset the size to 8 bits / char
 	options.c_cc[VMIN]=1;
 	options.c_cc[VTIME] = 1;
