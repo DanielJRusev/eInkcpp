@@ -5,7 +5,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <stdexcept>
-#include <iostream>
+
 #include <stdint.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "lib/stb-master/stb_image.h"
@@ -15,11 +15,11 @@
 void SleepMs(int ms);
 void sendImage(char *filename, int cdc);
 
-unsigned char RESOLUTION[] = { 0xA8, 0x00, 0x0C, 0x01, 0x00, 0x00, 0x08, 0x98, 0x06, 0x72, 0x00, 0x00, 0x00 };  	//Display Resolution 1600 x 1200
-unsigned char VCOM[] = { 0xA8, 0x00, 0x0A, 0x03, 0x00, 0x00, 0xf8, 0xD0, 0x00, 0x00, 0x00 };              			//VCOM -1780 mV    = 0xf830 
+unsigned char RESOLUTION[] = { 0xA8, 0x00, 0x0C, 0x01, 0x00, 0x00, 0x06, 0x40, 0x04, 0xB0, 0x00, 0x00, 0x00 };  	//Display Resolution 1600 x 1200
+unsigned char VCOM[] = { 0xA8, 0x00, 0x0A, 0x03, 0x00, 0x00, 0xf9, 0x0C, 0x00, 0x00, 0x00 };              			//VCOM -1780 mV    = 0xf830 
 unsigned char DGREY_LAVEL[] = { 0xA8, 0x00, 0x09, 0x04, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };			           	//GREY_LAVEL         16Bit
 unsigned char CONTRAST[] = { 0xA8, 0x00, 0x09, 0x06, 0x00, 0x00, 0x32, 0x00, 0x00, 0x00 };					   		//CONTRAST           50
-unsigned char BUS[] = { 0xA8, 0x00, 0x09, 0x05, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };                    			//BUS                8Bit
+unsigned char BUS[] = { 0xA8, 0x00, 0x09, 0x05, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00 };                    			//BUS                8Bit
 unsigned char CLEAR_SCREEN[] = { 0xA8, 0x00, 0x09, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD                CLEAR_SCREEN
 unsigned char WHITE_SCREEN[] = { 0xA8, 0x00, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD			     White screen
 unsigned char BLACK_SCREEN[] = { 0xA8, 0x00, 0x09, 0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD				 Black screen
@@ -28,17 +28,7 @@ unsigned char SHOW_THE_PICTURE[] = { 0xA8, 0x00, 0x09, 0x08, 0x00, 0x00, 0x01, 0
 
 int main(int argc, char ** argv) {
 
-	using std::cout;
-	using std::endl;
-
-	cout << "You have entered " << argc 
-         << " arguments:" << "\n"; 
-		 
-    for (int i = 0; i < argc; ++i) 
-        cout << argv[i] << "\n"; 
-
-	
-	int cdc_filestream = -1;
+ 	int cdc_filestream = -1;
 
 	//OPEN THE UART
 	
@@ -57,7 +47,7 @@ int main(int argc, char ** argv) {
 	
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
-	options.c_cflag = CS8 | CLOCAL | CREAD;		//<Set baud rate
+	options.c_cflag = B1000000 | CS8 | CLOCAL | CREAD;		//<Set baud rate
 	options.c_iflag = IGNPAR;
 	options.c_oflag = 0;
 	options.c_lflag = 0;
@@ -85,45 +75,45 @@ int main(int argc, char ** argv) {
 
 		SleepMs(500);
 
-		sendImage(argv[1], cdc_filestream);
-		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		//sendImage(argv[1], cdc_filestream);
+		//SleepMs(10);
+		//int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 				
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
 				
-		// sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
+		SleepMs(10);
+	int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		SleepMs(2000);
 
-		// sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-	    // n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
+		SleepMs(10);
+	    n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		SleepMs(2000);
 		
-		// sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
+		SleepMs(10);
+		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		SleepMs(2000);
 						
-		// sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
-		// SleepMs(10);
-		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		// SleepMs(2000);
+		sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
+		SleepMs(10);
+		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		SleepMs(2000);
 		
 		
-		// SleepMs(500);
+		SleepMs(500);
 
-		// n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
-		// SleepMs(500);
+		n = write(cdc_filestream, CLEAR_SCREEN, 0x09);
+		SleepMs(500);
 
 				
-		// n = write(cdc_filestream, BLACK_SCREEN, 0x09);
-		// SleepMs(500);
+		n = write(cdc_filestream, BLACK_SCREEN, 0x09);
+		SleepMs(500);
 
 		
-		// n = write(cdc_filestream, WHITE_SCREEN, 0x09);
-		// SleepMs(500);
+		n = write(cdc_filestream, WHITE_SCREEN, 0x09);
+		SleepMs(500);
 
 	
 	if (n < 0) {
