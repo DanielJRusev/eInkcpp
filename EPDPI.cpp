@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #define STB_IMAGE_IMPLEMENTATION
+#define B115200	115200
 #include "lib/stb-master/stb_image.h"
 
 
@@ -44,7 +45,6 @@ int main(int argc, char ** argv) {
 	}
 	
 	//CONFIGURE THE UART
-	#define B115200	115200
 	struct termios options;
 	tcgetattr(cdc_filestream, &options);
 	options.c_cflag = B115200;		//<Set baud rate
