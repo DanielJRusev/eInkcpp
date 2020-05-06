@@ -142,15 +142,15 @@ void sendImage(char *filename, int cdc)
 			frame[4] = 0x00;
 			frame[5] = 0x00;
 
-			unsigned char IMAGE_RESOLUTION[12] = { 0xA8, 0x00, 0x0C, 0x02};      //Image Resolution 
+			// unsigned char IMAGE_RESOLUTION[12] = { 0xA8, 0x00, 0x0C, 0x02};      //Image Resolution 
 			
-			IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
-			IMAGE_RESOLUTION[7] =  width        & 0xFF;
+			// IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
+			// IMAGE_RESOLUTION[7] =  width        & 0xFF;
 
-			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
-			IMAGE_RESOLUTION[9] =  height       & 0xFF;
+			// IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
+			// IMAGE_RESOLUTION[9] =  height       & 0xFF;
 
-			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
+			// write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
 
 			SleepMs(5);
 			
