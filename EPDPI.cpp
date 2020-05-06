@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
 
 		sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
 		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 		SleepMs(2000);
 
 		SleepMs(500);
