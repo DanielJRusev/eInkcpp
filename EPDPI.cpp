@@ -53,7 +53,7 @@ int main(int argc, char ** argv) {
 	options.c_lflag = 0;
 	tcflush(cdc_filestream, TCIFLUSH);
 	tcsetattr(cdc_filestream, TCSANOW, &options);
-	cfsetispeed(&options, B115200);
+	// cfsetispeed(&options, B115200);
 
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
 	fcntl(cdc_filestream, F_SETFL, 0);
