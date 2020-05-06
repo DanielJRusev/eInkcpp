@@ -8,7 +8,6 @@
 
 #include <stdint.h>
 #define STB_IMAGE_IMPLEMENTATION
-#define B115200	115200
 #include "lib/stb-master/stb_image.h"
 
 
