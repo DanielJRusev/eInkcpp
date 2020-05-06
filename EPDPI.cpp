@@ -49,8 +49,8 @@ int main(int argc, char ** argv) {
 	tcgetattr(cdc_filestream, &options);
 	options.c_cflag = CS8 | CLOCAL | CREAD;		//<Set baud rate
 	options.c_iflag = IGNPAR;
-	// options.c_oflag = 0;
-	// options.c_lflag = 0;
+	options.c_oflag = 0;
+	options.c_lflag = 0;
 	tcflush(cdc_filestream, TCIFLUSH);
 	tcsetattr(cdc_filestream, TCSANOW, &options);
 	cfsetispeed(&options, B115200);
