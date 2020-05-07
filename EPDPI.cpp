@@ -99,6 +99,8 @@ int main(int argc, char ** argv) {
 
 		sendImage(argv[1], cdc_filestream);
 		SleepMs(10);
+		printf("show image: ");
+		printf("\n");
 		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 		SleepMs(2000);
 		
@@ -174,9 +176,13 @@ void sendImage(char *filename, int cdc)
 			
 			for (int i = 0; i < height; i++)
 			{
+			printf("y loop: ");
+			printf("\n");
 				int c = 6;
 				for (int b = 0; b < width;)
 				{
+					printf("x loop: ");
+					printf("\n");
 					frame[c]     =  image[(i * width) + b++]       & 0xF0;
 					frame[c++]  |= (image[(i * width) + b++] >> 4) & 0x0F;
 					
@@ -184,7 +190,8 @@ void sendImage(char *filename, int cdc)
 
 				frame[4] = (height  >> 8) & 0x0F;    // DataCounter HB
 				frame[5] =  height        & 0xFF;    // DataCounter LB
-
+					printf("write to RAM: ");
+					printf("\n");
 				write(cdc, frame, 8 + (width / 2));
 				SleepMs(10);                         //Wait 10 milliseconds for recive Package 
 				
