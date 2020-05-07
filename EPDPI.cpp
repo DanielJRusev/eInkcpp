@@ -124,7 +124,9 @@ void sendImage(char *filename, int cdc)
 	uint8_t* image = stbi_load(filename, &width, &height, &bpp, 1);
 
 	printf("%x", width);
+	printf("\n");
 	printf("%x", height);
+	printf("\n");
 
 	if (!image) {
 		fprintf(stderr, "Couldn't load image.\n");
@@ -161,11 +163,13 @@ void sendImage(char *filename, int cdc)
 			printf("\n");
 
 
-			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
+			// write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
 
 			SleepMs(5);
 
 			printf("after sleep: ");
+			printf("\n");
+
 
 			
 			for (int i = 0; i < height; i++)
@@ -187,6 +191,8 @@ void sendImage(char *filename, int cdc)
 			}
 		}
 		printf("free the image");
+			printf("\n");
+
 
 		stbi_image_free(image);
 	}
