@@ -163,7 +163,7 @@ void sendImage(char *filename, int cdc)
 			printf("\n");
 
 
-			// write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
+			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
 
 			SleepMs(5);
 
