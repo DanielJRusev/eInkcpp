@@ -99,7 +99,7 @@ int main(int argc, char ** argv) {
 
 		sendImage(argv[1], cdc_filestream);
 		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, sizeof(SHOW_THE_PICTURE));
+		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 		SleepMs(2000);
 		
 	if (n < 0) {
