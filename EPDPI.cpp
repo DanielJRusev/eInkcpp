@@ -67,7 +67,7 @@ int main(int argc, char ** argv) {
 	options.c_oflag = 0;
 	options.c_lflag = 0;       //ICANON;
 	// Set the new options for the port...
-	tcsetattr(cdc_filestream, TCSANOW, &options);
+	// tcsetattr(cdc_filestream, TCSANOW, &options);
 
 	// options.c_cflag = 0xB1000000 | CS8 | CLOCAL | CREAD;		//<Set baud rate
 	// options.c_iflag = IGNPAR;
@@ -78,6 +78,7 @@ int main(int argc, char ** argv) {
 		
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
 	// fcntl(cdc_filestream, F_SETFL, 0);
+	fcntl(cdc_filestream, F_SETFL, FNDELAY);
 
 	// Write to the port
 	
@@ -99,7 +100,7 @@ int main(int argc, char ** argv) {
 
 		sendImage(argv[1], cdc_filestream);
 		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		int n = write(cdc_filestream, SHOW_THE_PICTURE, sizeof(SHOW_THE_PICTURE));
 		SleepMs(2000);
 		
 	if (n < 0) {
