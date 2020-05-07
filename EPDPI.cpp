@@ -77,8 +77,8 @@ int main(int argc, char ** argv) {
 	tcsetattr(cdc_filestream, TCSANOW, &options);
 		
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
-	// fcntl(cdc_filestream, F_SETFL, 0);
-	fcntl(cdc_filestream, F_SETFL, FNDELAY);
+	fcntl(cdc_filestream, F_SETFL, 0);
+	// fcntl(cdc_filestream, F_SETFL, FNDELAY);
 
 	// Write to the port
 	
@@ -151,15 +151,12 @@ void sendImage(char *filename, int cdc)
 
 			unsigned char IMAGE_RESOLUTION[12] = { 0xA8, 0x00, 0x0C, 0x02};      //Image Resolution 
 			
-			// IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
-			// IMAGE_RESOLUTION[7] =  width        & 0xFF;
+			IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
+			IMAGE_RESOLUTION[7] =  width        & 0xFF;
 
-			// IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
-			// IMAGE_RESOLUTION[9] =  height       & 0xFF;
-IMAGE_RESOLUTION[6] = 0x08;
-IMAGE_RESOLUTION[7] = 0x98;
-IMAGE_RESOLUTION[8] = 0x06;
-IMAGE_RESOLUTION[9] = 0x72;
+			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
+			IMAGE_RESOLUTION[9] =  height       & 0xFF;
+
 			
 			// printf("hashedChars: ");
 			// for (int i = 0; i < 12; i++) {
