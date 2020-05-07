@@ -135,7 +135,7 @@ void sendImage(char *filename, int cdc)
 	}
 	else
 	{
-		if ((width > 2200) || (height > 1650))
+		if ((width > 1650) || (height > 2200))
 		{
 			printf("Image size is to big \n");
 		}
@@ -171,36 +171,24 @@ void sendImage(char *filename, int cdc)
 
 			printf("after sleep: ");
 			printf("\n");
-
-
 			
 			for (int i = 0; i < height; i++)
 			{
-			printf("y loop: ");
-			printf("\n");
 				int c = 6;
 				for (int b = 0; b < width;)
 				{
-					printf("x loop: ");
-					printf("\n");
 					frame[c]     =  image[(i * width) + b++]       & 0xF0;
 					frame[c++]  |= (image[(i * width) + b++] >> 4) & 0x0F;
-					
 				}
-
 				frame[4] = (height  >> 8) & 0x0F;    // DataCounter HB
 				frame[5] =  height        & 0xFF;    // DataCounter LB
-					printf("write to RAM: ");
-					printf("\n");
-				write(cdc, frame, 8 + (width / 2));
+				write(cdc, frame, 8 + (width));
 				SleepMs(10);                         //Wait 10 milliseconds for recive Package 
 				
 			}
 		}
 		printf("free the image");
-			printf("\n");
-
-
+		printf("\n");
 		stbi_image_free(image);
 	}
 }
