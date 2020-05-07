@@ -123,6 +123,9 @@ void sendImage(char *filename, int cdc)
 
 	uint8_t* image = stbi_load(filename, &width, &height, &bpp, 1);
 
+	printf("%x", width);
+	printf("%x", height);
+
 	if (!image) {
 		fprintf(stderr, "Couldn't load image.\n");
 	}
