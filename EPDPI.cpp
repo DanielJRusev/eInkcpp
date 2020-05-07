@@ -79,12 +79,12 @@ int main(int argc, char ** argv) {
 		SleepMs(10);
 		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 		SleepMs(2000);
-				
+
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
 				
 		sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
 		SleepMs(10);
-	int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
 		SleepMs(2000);
 
 		sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
