@@ -15,16 +15,17 @@
 void SleepMs(int ms);
 void sendImage(char *filename, int cdc);
 
-unsigned char RESOLUTION[] = { 0xA8, 0x00, 0x0C, 0x01, 0x00, 0x00, 0x06, 0x40, 0x04, 0xB0, 0x00, 0x00, 0x00 };  	//Display Resolution 1600 x 1200
-unsigned char VCOM[] = { 0xA8, 0x00, 0x0A, 0x03, 0x00, 0x00, 0xf9, 0x0C, 0x00, 0x00, 0x00 };              			//VCOM -1780 mV    = 0xf830 
+unsigned char RESOLUTION[] = { 0xA8, 0x00, 0x0C, 0x01, 0x00, 0x00, 0x08, 0x98, 0x06, 0x72, 0x00, 0x00, 0x00 };  	//Display Resolution 2220 x 1650
+unsigned char VCOM[] = { 0xA8, 0x00, 0x0A, 0x03, 0x00, 0x00, 0xf8, 0xD0, 0x00, 0x00, 0x00 };              			//VCOM -1840 mV    =  
+
 unsigned char DGREY_LAVEL[] = { 0xA8, 0x00, 0x09, 0x04, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };			           	//GREY_LAVEL         16Bit
-unsigned char CONTRAST[] = { 0xA8, 0x00, 0x09, 0x06, 0x00, 0x00, 0x32, 0x00, 0x00, 0x00 };					   		//CONTRAST           50
-unsigned char BUS[] = { 0xA8, 0x00, 0x09, 0x05, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };                    			//BUS                8Bit
+unsigned char CONTRAST[] = { 0xA8, 0x00, 0x09, 0x06, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00 };					   		//CONTRAST           50
+unsigned char BUS[] = { 0xA8, 0x00, 0x09, 0x05, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00 };                    			//BUS                16Bit
+
 unsigned char CLEAR_SCREEN[] = { 0xA8, 0x00, 0x09, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD                CLEAR_SCREEN
 unsigned char WHITE_SCREEN[] = { 0xA8, 0x00, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD			     White screen
 unsigned char BLACK_SCREEN[] = { 0xA8, 0x00, 0x09, 0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };                    	//CMD				 Black screen
 unsigned char SHOW_THE_PICTURE[] = { 0xA8, 0x00, 0x09, 0x08, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00 };                  //CMD                RAM2Display
-
 
 int main(int argc, char ** argv) {
 
@@ -82,25 +83,25 @@ int main(int argc, char ** argv) {
 
 		//sendImage("/home/pi/Desktop/1280x800/1.jpg", cdc_filestream);
 				
-		sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+		// sendImage( (char*)("1.jpg"), cdc_filestream);  // Open file 
+		// SleepMs(10);
+		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		// SleepMs(2000);
 
-		sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-	    n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+		// sendImage((char*)("2.jpg"), cdc_filestream);  // Open file 
+		// SleepMs(10);
+	    // n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		// SleepMs(2000);
 		
-		sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+		// sendImage((char*)("3.jpg"), cdc_filestream);  // Open file 
+		// SleepMs(10);
+		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		// SleepMs(2000);
 						
-		sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
-		SleepMs(10);
-		n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
-		SleepMs(2000);
+		// sendImage((char*)("4.jpg"), cdc_filestream);  // Open file 
+		// SleepMs(10);
+		// n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		// SleepMs(2000);
 		
 		
 		SleepMs(500);
@@ -141,15 +142,15 @@ void sendImage(char *filename, int cdc)
 	}
 	else
 	{
-		if ((width > 1600) || (height > 1200))
+		if ((width > 2200) || (height > 1650))
 		{
 			printf("Image size is to big \n");
 		}
 		else
 		{
-			unsigned char frame[(width/2) + 8];
+			unsigned char frame[(width/2) + 16];
 			frame[0] = 0xA8;
-			frame[1] = ((8 + (width / 2)) >> 8) & 0xFF;  // FrameLength HB
+			frame[1] = ((8 + (width / 2)) >> 16) & 0xFF;  // FrameLength HB
 			frame[2] = ((8 + (width / 2))     ) & 0xFF;  // FrameLength LB
 			frame[3] = 0x07;
 			frame[4] = 0x00;
@@ -157,10 +158,10 @@ void sendImage(char *filename, int cdc)
 
 			unsigned char IMAGE_RESOLUTION[12] = { 0xA8, 0x00, 0x0C, 0x02};      //Image Resolution 
 			
-			IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
+			IMAGE_RESOLUTION[6] = (width >> 16)  & 0x0F;
 			IMAGE_RESOLUTION[7] =  width        & 0xFF;
 
-			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
+			IMAGE_RESOLUTION[8] = (height >> 16) & 0x0F;
 			IMAGE_RESOLUTION[9] =  height       & 0xFF;
 
 			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
@@ -177,10 +178,10 @@ void sendImage(char *filename, int cdc)
 					
 				}
 
-				frame[4] = (height  >> 8) & 0x0F;    // DataCounter HB
+				frame[4] = (height  >> 16) & 0x0F;    // DataCounter HB
 				frame[5] =  height        & 0xFF;    // DataCounter LB
 
-				write(cdc, frame, 8 + (width / 2));
+				write(cdc, frame, 16 + (width / 2));
 				SleepMs(10);                         //Wait 10 milliseconds for recive Package 
 				
 			}
