@@ -148,9 +148,9 @@ void sendImage(char *filename, int cdc)
 		}
 		else
 		{
-			unsigned char frame[(width/2) + 16];
+			unsigned char frame[(width/2) + 8];
 			frame[0] = 0xA8;
-			frame[1] = ((8 + (width / 2)) >> 16) & 0xFF;  // FrameLength HB
+			frame[1] = ((8 + (width / 2)) >> 8) & 0xFF;  // FrameLength HB
 			frame[2] = ((8 + (width / 2))     ) & 0xFF;  // FrameLength LB
 			frame[3] = 0x07;
 			frame[4] = 0x00;
@@ -158,10 +158,10 @@ void sendImage(char *filename, int cdc)
 
 			unsigned char IMAGE_RESOLUTION[12] = { 0xA8, 0x00, 0x0C, 0x02};      //Image Resolution 
 			
-			IMAGE_RESOLUTION[6] = (width >> 16)  & 0x0F;
+			IMAGE_RESOLUTION[6] = (width >> 8)  & 0x0F;
 			IMAGE_RESOLUTION[7] =  width        & 0xFF;
 
-			IMAGE_RESOLUTION[8] = (height >> 16) & 0x0F;
+			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
 			IMAGE_RESOLUTION[9] =  height       & 0xFF;
 
 			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
@@ -178,10 +178,10 @@ void sendImage(char *filename, int cdc)
 					
 				}
 
-				frame[4] = (height  >> 16) & 0x0F;    // DataCounter HB
+				frame[4] = (height  >> 8) & 0x0F;    // DataCounter HB
 				frame[5] =  height        & 0xFF;    // DataCounter LB
 
-				write(cdc, frame, 16 + (width / 2));
+				write(cdc, frame, 8 + (width / 2));
 				SleepMs(10);                         //Wait 10 milliseconds for recive Package 
 				
 			}
