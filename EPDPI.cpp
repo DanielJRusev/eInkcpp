@@ -77,29 +77,29 @@ int main(int argc, char ** argv) {
 	tcsetattr(cdc_filestream, TCSANOW, &options);
 		
 	// Turn off blocking for reads, use (fd, F_SETFL, FNDELAY) if you want that
-	fcntl(cdc_filestream, F_SETFL, 0);
+	// fcntl(cdc_filestream, F_SETFL, 0);
 
 	// Write to the port
 	
-	    write(cdc_filestream, RESOLUTION,	0x0C);
+	    write(cdc_filestream, RESOLUTION,	sizeof(RESOLUTION));
 	    SleepMs(10);
-	   	write(cdc_filestream, VCOM,			0x0A);
+	   	write(cdc_filestream, VCOM,			sizeof(VCOM));
 		SleepMs(10);
-		write(cdc_filestream, DGREY_LAVEL,	0x09);
+		write(cdc_filestream, DGREY_LAVEL,	sizeof(DGREY_LAVEL));
 		SleepMs(10);
-		write(cdc_filestream, CONTRAST,		0x09);
+		write(cdc_filestream, CONTRAST,		sizeof(CONTRAST));
 		SleepMs(10);
-		write(cdc_filestream, BUS,			0x09);
+		write(cdc_filestream, BUS,			sizeof(BUS));
 
 		SleepMs(100);
 
-		write(cdc_filestream, CLEAR_SCREEN, 0x09);
+		write(cdc_filestream, CLEAR_SCREEN, sizeof(CLEAR_SCREEN));
 
 		SleepMs(500);
 
 		sendImage(argv[1], cdc_filestream);
 		SleepMs(10);
-		int n = write(cdc_filestream, SHOW_THE_PICTURE, 0x09);
+		int n = write(cdc_filestream, SHOW_THE_PICTURE, sizeof(SHOW_THE_PICTURE));
 		SleepMs(2000);
 		
 	if (n < 0) {
@@ -157,11 +157,11 @@ void sendImage(char *filename, int cdc)
 			IMAGE_RESOLUTION[9] =  height       & 0xFF;
 
 			
-			printf("hashedChars: ");
-			for (int i = 0; i < 12; i++) {
-			printf("%x", IMAGE_RESOLUTION[i]);
-			}
-			printf("\n");
+			// printf("hashedChars: ");
+			// for (int i = 0; i < 12; i++) {
+			// printf("%x", IMAGE_RESOLUTION[i]);
+			// }
+			// printf("\n");
 
 
 			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
