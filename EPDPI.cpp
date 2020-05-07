@@ -150,9 +150,20 @@ void sendImage(char *filename, int cdc)
 			IMAGE_RESOLUTION[8] = (height >> 8) & 0x0F;
 			IMAGE_RESOLUTION[9] =  height       & 0xFF;
 
+			
+			printf("hashedChars: ");
+			for (int i = 0; i < 12; i++) {
+			printf("%x", IMAGE_RESOLUTION[i]);
+			}
+			printf("\n");
+
+
 			write(cdc, IMAGE_RESOLUTION, sizeof(IMAGE_RESOLUTION));
 
 			SleepMs(5);
+
+			printf("after sleep: ");
+
 			
 			for (int i = 0; i < height; i++)
 			{
@@ -172,6 +183,7 @@ void sendImage(char *filename, int cdc)
 				
 			}
 		}
+		printf("free the image");
 
 		stbi_image_free(image);
 	}
